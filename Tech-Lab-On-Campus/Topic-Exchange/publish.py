@@ -24,6 +24,7 @@ def main(ticker: str, price: float, sector: str) -> None:
     #
     #                       WRITE CODE HERE!!!
     #
+    routingKey = "Stock." + ticker + "." + sector
 
 
     producer = mqProducer(routing_key=routingKey,exchange_name="Tech Lab Topic Exchange")
@@ -33,7 +34,7 @@ def main(ticker: str, price: float, sector: str) -> None:
     #
     #                       WRITE CODE HERE!!!
     #
-    
+    message = f"{ticker} price is now ${price}"
     
     producer.publishOrder(message)
 
@@ -43,5 +44,15 @@ if __name__ == "__main__":
     #
     #                       WRITE CODE HERE!!!
     #
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--ticker')
+    parser.add_argument('-p', '--price')
+    parser.add_argument('-s', '--sector')
+    args = parser.parse_args()
+
+    ticker = args.ticker
+    price = args.price
+    sector = args.sector
 
     sys.exit(main(ticker,price,sector))
